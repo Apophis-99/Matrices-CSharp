@@ -86,19 +86,17 @@ public class Matrix
             throw new Exception("The number of columns in Matrix A must be equal to the number of rows in Matrix B");
         var mat = new Matrix(a.Rows, b.Cols);
 
-        // TODO finish making algorithm to multiply two matrices
-        
-        // multiply 0 row of A by 0 column of B
-        // sum of previous calculation = 0 row, 0 col
-        
-        // multiply 0 row of A by 1 column of B
-        // sum of previous calculation = 0 row, 1 col
-
         for (var r = 0; r < mat.Rows; r++)
         {
             for (var c = 0; c < mat.Cols; c++)
             {
-                
+                var sum = 0.0;
+                for (var i = 0; i < mat.Cols; i++)
+                {
+                    sum += a[r, i] * b[i, c];
+                }
+
+                mat[r, c] = sum;
             }
         }
 
@@ -121,6 +119,17 @@ public class Matrix
     {
         var mat = "";
 
+        var columnWidths = new int[Cols];
+
+        for (var r = 0; r < Rows; r++)
+        {
+            for (var c = 0; c < Cols; c++)
+            {
+                if (Data[r, c].ToString().Length > columnWidths[c])
+                    columnWidths[c] = Data[r, c].ToString().Length;
+            }
+        }
+
         for (var r = 0; r < Rows; r++)
         {
             if (r == 0)
@@ -132,7 +141,7 @@ public class Matrix
             
             for (var c = 0; c < Cols; c++)
             {
-                mat += Data[r, c] + " ";
+                mat += Data[r, c].ToString().PadLeft(columnWidths[c]) + " ";
             }
             
             if (r == 0)

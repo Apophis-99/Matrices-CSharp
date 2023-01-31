@@ -11,12 +11,16 @@ public class Matrix2x2 : SquareMatrix
     public override SquareMatrix GetInverse()
     {
         var mat = this;
+
+        var det = GetDeterminant();
+        if (det == 0)
+            throw new Exception("Matrix is singular, there is not an inverse as the determinant resulted in 0.");
         
         (mat[0, 0], mat[1, 1]) = (mat[1, 1], mat[0, 0]);
         mat[0, 1] = -mat[0, 1];
         mat[1, 0] = -mat[1, 0];
 
-        mat = (Matrix2x2) (mat * GetDeterminant());
+        mat = (Matrix2x2) (mat * (1 / det));
 
         return mat;
     }
